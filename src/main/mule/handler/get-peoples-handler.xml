@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="get-peoples-handlerSub_Flow" doc:id="eb269075-3958-49c2-baea-9daa5ed6f1c6" >
+		<ee:transform doc:name="Transform Message" doc:id="cc1b88cb-2712-4da9-8dbc-7781cd657455" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="gender" ><![CDATA[attributes.queryParams.gender]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="Go to Orchestrator" doc:id="38e02f3f-801d-430e-abc6-a6dab2058629" name="get-peoples-orchestratorSub_Flow"/>
+	</sub-flow>
+</mule>

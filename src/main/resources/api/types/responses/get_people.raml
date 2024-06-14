@@ -1,0 +1,53 @@
+#%RAML 1.0 DataType
+type: object
+properties:
+  count:
+    type: number
+    required: true
+    example: 82
+  next:
+    type: string
+    required: true
+    example: "https://swapi.dev/api/people/?page=2"
+  previous:
+    type: boolean
+    required: true
+    example: true
+  results:
+    type: array
+    required: true
+    example: []
+    items:
+      properties:
+        name:
+          type: string
+          required: true
+          example: "Leia Organa"
+        height:
+          type: number
+          required: true
+          example: 150
+        mass:
+          type: number
+          required: true
+          example: 49
+        hair_color:
+          type: string
+          required: true
+          example: "brown"
+        skin_color:
+          type: string
+          required: true
+          example: "light"
+        eye_color:
+          type: string
+          required: true
+          example: "brown"
+        birth_year:
+          type: string
+          required: true
+          example: "19BBY"
+        gender:
+          type: string
+          required: true
+          example: "female"

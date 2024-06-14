@@ -1,0 +1,20 @@
+#%RAML 1.0
+title: sps-swapi-sapi-svc
+types:
+  people: !include /types/responses/get_people.raml
+/v1:
+  /peoples:
+    get:
+      queryParameters:
+        gender: 
+          type: string
+          required: false
+          example: female
+      description: 
+      responses:
+        200:
+          body:
+            application/csv:
+              type: people
+        400:
+          description: no found

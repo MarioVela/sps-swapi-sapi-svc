@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd">
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="686b5d99-a64b-4f2d-8290-e8519c8d6c3f" basePath="${swapi.basePath}" >
+		<http:request-connection protocol="${swapi.schema}" host="${swapi.host}" port="${swapi.port}" >
+			<tls:context >
+				<tls:trust-store insecure="true" />
+			</tls:context>
+		</http:request-connection>
+	</http:request-config>
+	<sub-flow name="get-peoples-sapi-clientSub_Flow" doc:id="cabc36cd-7d8b-4b50-b65d-2f2a7b02e038" >
+		<http:request method="GET" doc:name="Request" doc:id="c32293af-22d8-4d27-a4c6-993ce9a221a3" config-ref="HTTP_Request_configuration" path="${swapi.paths.people}"/>
+	</sub-flow>
+</mule>
