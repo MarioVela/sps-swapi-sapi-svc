@@ -10,8 +10,16 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			</ee:message>
 			<ee:variables >
 				<ee:set-variable variableName="gender" ><![CDATA[attributes.queryParams.gender]]></ee:set-variable>
+				<ee:set-variable variableName="page" ><![CDATA[%dw 2.0
+output application/json
+---
+attributes.headers.page]]></ee:set-variable>
+				<ee:set-variable variableName="payload2" ><![CDATA[%dw 2.0
+output application/java
+---
+[]]]></ee:set-variable>
 			</ee:variables>
 		</ee:transform>
-		<flow-ref doc:name="Go to Orchestrator" doc:id="38e02f3f-801d-430e-abc6-a6dab2058629" name="get-peoples-orchestratorSub_Flow"/>
+		<flow-ref doc:name="Go to Orchestrator" doc:id="38e02f3f-801d-430e-abc6-a6dab2058629" name="get-peoples-orchestratorSub_Flow" />
 	</sub-flow>
 </mule>

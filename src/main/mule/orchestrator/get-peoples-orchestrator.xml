@@ -1,32 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
 	<sub-flow name="get-peoples-orchestratorSub_Flow" doc:id="6c3de492-5415-4541-a350-fa595efe1682" >
 		<flow-ref doc:name="Go to Client" doc:id="761a32a6-184d-47b9-ad11-972837ded11f" name="get-peoples-sapi-clientSub_Flow"/>
-		<choice doc:name="Choice" doc:id="5bf814b2-c888-4186-ba43-fb4e8d08a74b">
-			<when expression="#[vars.gender != null]">
-				<ee:transform doc:name="Transform Message" doc:id="c3cac247-8219-4e72-a9d8-4ee30b6d7d80" >
-					<ee:message >
-						<ee:set-payload ><![CDATA[%dw 2.0
+		<try doc:name="Try" doc:id="2dc250ec-246f-4878-b1c5-f0bd4b1d8d1c">
+			<choice doc:name="Choice" doc:id="eb02bf94-8fd2-4522-85fd-730fb5f8af4f" >
+				<when expression="#[payload.next == null]" >
+					<raise-error doc:name="Raise error" doc:id="6d7e4737-de5e-4132-962a-0df4df04c97f" type="CUSTON:SIN_RESULTADOS"/>
+				</when>
+				<otherwise >
+					<ee:transform doc:name="Transform Message" doc:id="a1292ebe-c98c-402d-934f-986158b3c01f">
+					<ee:message>
+					</ee:message>
+						<ee:variables >
+							<ee:set-variable variableName="payload2" ><![CDATA[%dw 2.0
 output application/json
 ---
-payload.results filter ($.gender == vars.gender) ]]></ee:set-payload>
-					</ee:message>
+vars.payload2 ++ payload.results]]></ee:set-variable>
+							<ee:set-variable variableName="page" ><![CDATA[%dw 2.0
+output application/java
+---
+payload.next]]></ee:set-variable>
+						</ee:variables>
 				</ee:transform>
-			</when>
-			<otherwise >
-				<ee:transform doc:name="Transform Message" doc:id="a1292ebe-c98c-402d-934f-986158b3c01f" >
-					<ee:message >
-						<ee:set-payload ><![CDATA[%dw 2.0
+					<flow-ref doc:name="Flow Reference" doc:id="38c1c893-de47-4028-9391-11306da11cbe" name="get-peoples-orchestratorSub_Flow"/>
+				</otherwise>
+			</choice>
+			<error-handler >
+				<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="507f61bf-e51a-408c-9cd6-0fb6a82c9d0c" />
+			</error-handler>
+		</try>
+		<ee:transform doc:name="Transform Message" doc:id="83a95961-6e5b-4afb-9568-bfa7a2a70467" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
-payload.results]]></ee:set-payload>
-					</ee:message>
-				</ee:transform>
-			</otherwise>
-		</choice>
+vars.payload2]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
 	</sub-flow>
+	<!-- [STUDIO:"get-peoples-orchestratorFlow"]<flow name="get-peoples-orchestratorFlow" doc:id="95653a18-1fdc-421f-ba10-1ceb334b9e34" >
+		<ee:transform doc:name="Transform Message" doc:id="8991414f-69ca-499b-9b36-1cf269f41042" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+&#45;&#45;-
+payload.results filter ($.gender == vars.gender) &#93;&#93;></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow> [STUDIO] -->
 </mule>

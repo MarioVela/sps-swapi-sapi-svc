@@ -5,6 +5,10 @@ types:
 /v1:
   /peoples:
     get:
+      headers:
+        page:
+          type: number
+          required: false
       queryParameters:
         gender: 
           type: string
