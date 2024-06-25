@@ -13,6 +13,15 @@ http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/
 		</http:request-connection>
 	</http:request-config>
 	<sub-flow name="get-peoples-sapi-clientSub_Flow" doc:id="cabc36cd-7d8b-4b50-b65d-2f2a7b02e038" >
-		<http:request method="GET" doc:name="Request" doc:id="c32293af-22d8-4d27-a4c6-993ce9a221a3" config-ref="HTTP_Request_configuration" path="${swapi.paths.people}"/>
+		<http:request method="GET" doc:name="Request" doc:id="c32293af-22d8-4d27-a4c6-993ce9a221a3" config-ref="HTTP_Request_configuration" path="${swapi.paths.people}">
+			<http:query-params ><![CDATA[#[import * from dw::core::Strings 
+output application/java
+---
+if(vars.payload2 != []){
+
+	page : substringAfter(payload.next default "jjjj","=") default 0
+}else
+{}]]]></http:query-params>
+		</http:request>
 	</sub-flow>
 </mule>
